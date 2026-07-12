@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 const Report = require('../models/Report');
 const aiService = require('../services/aiService');
+const duplicateDetectionService = require('../services/duplicateDetectionService');
 
 exports.createReport = async (req, res) => {
     const errors = validationResult(req);
@@ -18,13 +19,17 @@ exports.createReport = async (req, res) => {
             return res.status(500).json({ success: false, message: "AI classification failed. Please try again." });
         }
 
+        const duplicateResult = await duplicateDetectionService.findDuplicate(aiData.category, location, description);
+
         const mergedData = {
             ...req.body,
             category: aiData.category,
             urgency: aiData.urgency,
             summary: aiData.summary,
             suggestedAction: aiData.suggestedAction,
-            confidence: aiData.confidence
+            confidence: aiData.confidence,
+            possibleDuplicate: duplicateResult.possibleDuplicate,
+            matchedReportId: duplicateResult.matchedReportId
         };
 
         const report = new Report(mergedData);
