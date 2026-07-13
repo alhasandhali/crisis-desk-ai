@@ -1,0 +1,42 @@
+openapi: 3.0.0
+info:
+  title: CrisisDesk AI API
+  version: 1.0.0
+  description: Backend API for CrisisDesk AI
+servers:
+  - url: http://localhost:3000/api
+paths:
+  /reports:
+    post:
+      summary: Create a new incident report
+      description: Creates a new report and automatically classifies it using Google Gemini AI.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - description
+                - location
+              properties:
+                description:
+                  type: string
+                location:
+                  type: string
+                language:
+                  type: string
+      responses:
+        '201':
+          description: Report created successfully
+        '400':
+          description: Validation error
+        '500':
+          description: Server error
+  /reports/stats/summary:
+    get:
+      summary: Get report statistics
+      description: Returns a breakdown of reports by status, category, and urgency.
+      responses:
+        '200':
+          description: Successful response

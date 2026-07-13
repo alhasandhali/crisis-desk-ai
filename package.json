@@ -14,8 +14,11 @@
     "@google/generative-ai": "^0.24.1",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.5.2",
     "express-validator": "^7.3.2",
     "mongoose": "^9.7.4",
-    "string-similarity": "^4.0.4"
+    "string-similarity": "^4.0.4",
+    "swagger-ui-express": "^5.0.1",
+    "yamljs": "^0.3.0"
   }
 }
